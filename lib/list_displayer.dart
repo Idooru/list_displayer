@@ -38,6 +38,93 @@ class _ListDisplayerState extends State<ListDisplayer> {
     fetchList();
   }
 
+  Widget generateCard({
+    required int id,
+    required String title,
+    required String writer,
+    required String status,
+  }) {
+    return Container(
+      height: 80,
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(70, 27, 26, 26),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: Center(
+              child: Text('$id'),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.all(20),
+              child: Center(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 230, 230, 230),
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 75,
+            height: 50,
+            child: Center(
+              child: Text(
+                writer,
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 182, 182, 182),
+                  fontWeight: FontWeight.w200,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 50,
+            height: 50,
+            child: Center(
+              child: (() {
+                if (status == "none") {
+                  return const Icon(
+                    Icons.cancel,
+                    color: Colors.red,
+                  );
+                } else if (status == "progress") {
+                  return const Icon(
+                    Icons.edit,
+                    color: Colors.yellow,
+                  );
+                } else if (status == "done") {
+                  return const Icon(
+                    Icons.check_circle,
+                    color: Colors.green,
+                  );
+                }
+                return null;
+              })(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,84 +151,12 @@ class _ListDisplayerState extends State<ListDisplayer> {
                 itemCount: _fetched.length,
                 itemBuilder: (context, index) {
                   final data = _fetched[index];
-                  return Container(
-                    height: 80,
-                    margin: const EdgeInsets.all(10),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(70, 27, 26, 26),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: Center(
-                            child: Text('${data['id']}'),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            margin: const EdgeInsets.all(20),
-                            child: Center(
-                              child: Text(
-                                '${data['title']}',
-                                style: const TextStyle(
-                                  color: Color.fromARGB(255, 230, 230, 230),
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 75,
-                          height: 50,
-                          child: Center(
-                            child: Text(
-                              '${data['writer']}',
-                              style: const TextStyle(
-                                color: Color.fromARGB(255, 182, 182, 182),
-                                fontWeight: FontWeight.w200,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 50,
-                          height: 50,
-                          child: Center(
-                            child: ((status) {
-                              if (status == "none") {
-                                return const Icon(
-                                  Icons.cancel,
-                                  color: Colors.red,
-                                );
-                              } else if (status == "progress") {
-                                return const Icon(
-                                  Icons.edit,
-                                  color: Colors.yellow,
-                                );
-                              } else if (status == "done") {
-                                return const Icon(
-                                  Icons.check_circle,
-                                  color: Colors.green,
-                                );
-                              }
-                              return null;
-                            })(data['status']),
-                          ),
-                        ),
-                      ],
-                    ),
+
+                  return generateCard(
+                    id: data['id'],
+                    title: data['title'],
+                    writer: data['writer'],
+                    status: data['status'],
                   );
                 },
               ),
