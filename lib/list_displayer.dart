@@ -38,26 +38,6 @@ class _ListDisplayerState extends State<ListDisplayer> {
     fetchList();
   }
 
-  Icon? branchIcon(String status) {
-    if (status == "none") {
-      return const Icon(
-        Icons.cancel,
-        color: Colors.red,
-      );
-    } else if (status == "progress") {
-      return const Icon(
-        Icons.edit,
-        color: Colors.yellow,
-      );
-    } else if (status == "done") {
-      return const Icon(
-        Icons.check_circle,
-        color: Colors.green,
-      );
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,7 +119,25 @@ class _ListDisplayerState extends State<ListDisplayer> {
                           width: 50,
                           height: 50,
                           child: Center(
-                            child: branchIcon(data['status']),
+                            child: ((status) {
+                              if (status == "none") {
+                                return const Icon(
+                                  Icons.cancel,
+                                  color: Colors.red,
+                                );
+                              } else if (status == "progress") {
+                                return const Icon(
+                                  Icons.edit,
+                                  color: Colors.yellow,
+                                );
+                              } else if (status == "done") {
+                                return const Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green,
+                                );
+                              }
+                              return null;
+                            })(data['status']),
                           ),
                         ),
                       ],
